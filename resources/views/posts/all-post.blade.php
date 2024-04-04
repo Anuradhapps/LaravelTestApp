@@ -14,10 +14,12 @@
             @foreach($posts as $post)
           <tr>
             <th scope="row">{{$post->id}}</th>
-            <td>{{$post->created_at}}</td>
             <td>{{$post->title}}</td>
             <td>{{substr($post->description,0,100)}}</td>
-            
+            <td>
+                <a href="{{route('post.edit',$post->id)}}"class="btn btn-success btn-sm">Edit</a>
+                <a href=""class="btn btn-danger btn-sm ms-1">Delete</a>
+            </td>
           </tr>
 
           @endforeach

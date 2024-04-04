@@ -14,7 +14,7 @@
             <a class="text-muted" href="#">Subscribe</a>
           </div>
           <div class="col-4 text-center">
-            <a class="blog-header-logo text-dark" href="{{route('welcome')}}">Large</a>
+            <a class="blog-header-logo text-dark" href="{{route('welcome')}}"><h2>MyBlog</h2> </a>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
             <a class="text-muted" href="#">

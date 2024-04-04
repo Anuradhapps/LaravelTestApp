@@ -20,4 +20,10 @@ class postController extends Controller
         $post = Post::findOrFail($postId);
         return view('posts.show',compact('post'));
     }
+
+    public function edit($postId){
+        return view('posts.edit');
+    }
+    
+
 }

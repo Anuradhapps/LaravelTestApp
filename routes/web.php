@@ -15,3 +15,4 @@ Route::get('/home',[HomeController::class,'index'])->name('home');
 Route::post('/post/store',[postController::class,'store'])->name('post.store');
 Route::get('/post/{postId}/show',[postController::class,'show'])->name('post.show');
 Route::get('/post/all-post',[HomeController::class,'allPost'])->name('post.all');
+Route::get('/post/{postId}/edit',[postController::class,'edit'])->name('post.edit');
