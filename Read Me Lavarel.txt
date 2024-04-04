@@ -1,0 +1,81 @@
+laravel new example-app
+php artisan migrate
+php artisan migrate:fresh ///clear database and run again
+php artisan serve
+composer require laravel/ui
+php artisan ui bootstrap --auth
+npm install && npm run dev
+
+@extends('layouts.frontend');
+@yield('content')
+@section('content');
+@endsection
+
+----------------------------------------
+app>providers>appserviceprovider
+
+use Illuminate\Support\Facades\Schema;
+
+    public function boot(): void
+    {
+        Schema::defaultStringLength(191);
+    }
+}
+
+-------------------------------------------
+
+
+php artisan make:model post -m
+php artisan make:migration create_posts_table --create=posts
+
+----------------------------------------------
+database > migrate>
+$table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('title');
+            $table->text('description');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+-------------------------------------------------------
+
+
+php artisan make:controller postController
+------------------------------------------------
+app>http>controllers>postController>
+
+use Illuminate\Http\Request;
+use App\Models\post;
+
+public function store(Request $request){
+        post::create([
+            'user_id'=> auth()->user()->id,
+            'title'=> $request->title,
+            'description'=> $request->description,
+        ]);
+    }
+
+-----------------------------------------------
+
+<form method="post" action="{{route('post.store')}}">
+@csrf
+
+
+-------------------------------------------------
+app>model>post>
+
+ protected $fillable = [
+        'user_id',
+        'title',
+        'description'
+    ] ;
+
+--------------------------------------------------------
+
+app>http>controllers>postcontroller>
+return back();
+-------------------------------------------------------
+
+display values to home;
+
+
