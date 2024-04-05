@@ -16,3 +16,5 @@ Route::post('/post/store',[postController::class,'store'])->name('post.store');
 Route::get('/post/{postId}/show',[postController::class,'show'])->name('post.show');
 Route::get('/post/all-post',[HomeController::class,'allPost'])->name('post.all');
 Route::get('/post/{postId}/edit',[postController::class,'edit'])->name('post.edit');
+Route::post('/post/{postId}/update',[postController::class,'update'])->name('post.update');
+Route::get('/post/{postId}/delete',[postController::class,'delete'])->name('post.delete');
