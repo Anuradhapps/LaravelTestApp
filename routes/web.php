@@ -5,21 +5,26 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\postController;
 use App\Http\Controllers\welcomeContoller;
 use App\Http\Middleware\isAdmin;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', [welcomeContoller::class,'index'])->name('welcome');
+Route::get('/', [welcomeContoller::class, 'index'])->name('welcome');
 
-Route::get('/home',[HomeController::class,'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 //post
-Route::post('/post/store',[postController::class,'store'])->name('post.store');
-Route::get('/post/{postId}/show',[postController::class,'show'])->name('post.show');
-Route::get('/post/all-post',[HomeController::class,'allPost'])->name('post.all');
-Route::get('/post/{postId}/edit',[postController::class,'edit'])->name('post.edit');
-Route::post('/post/{postId}/update',[postController::class,'update'])->name('post.update');
-Route::get('/post/{postId}/delete',[postController::class,'delete'])->name('post.delete');
-
+Route::get('/post/{postId}/show', [postController::class, 'show'])->name('post.show');
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('/post/store', [postController::class, 'store'])->name('post.store');
+    Route::get('/post/all-post', [HomeController::class, 'allPost'])->name('post.all');
+    Route::get('/post/{postId}/edit', [postController::class, 'edit'])->name('post.edit');
+    Route::post('/post/{postId}/update', [postController::class, 'update'])->name('post.update');
+    Route::get('/post/{postId}/delete', [postController::class, 'delete'])->name('post.delete');
+});
 //admin
-Route::get('admin/dashboard',[DashboardController::class,'index'])->middleware('admin')->name('admin.dashboard');
+// Route::group(['middleware'=>['admin'],'prefix'=>'admin','as'=>'admin.'],function(){
+   
+// });
+Route::get('admin/dashboard', [DashboardController::class, 'index'])->middleware('admin')->name('admin.dashboard');
