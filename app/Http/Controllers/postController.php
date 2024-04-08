@@ -8,45 +8,52 @@ use Illuminate\Support\Facades\Validator;
 
 class postController extends Controller
 {
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
-            "title"=> "required",
-            "description"=>"required"
+            "title" => "required",
+            "description" => "required",
+            "thumbnail" => "required|image",
         ]);
 
-        if ($validator->fails()){
-            return back()->with('status','somthin went wrong');
-        }else{
+        if ($validator->fails()) {
+            return back()->with('status', 'somthin went wrong');
+        } else {
+            $imageName = time() .".". $request->thumbnail->extension();
+            $request->thumbnail->move(public_path('thumbnails'), $imageName);
             post::create([
-                'user_id'=> auth()->user()->id,
-                'title'=> $request->title,
-                'description'=> $request->description,
-                
+                'user_id' => auth()->user()->id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'thumbnail'=>$imageName,
+
             ]);
-        }   
-        return redirect(route('post.all'))->with('status','New Post created successfuly');
+        }
+        return redirect(route('post.all'))->with('status', 'New Post created successfuly');
     }
 
-    public function show($postId){
+    public function show($postId)
+    {
         $post = Post::findOrFail($postId);
-        return view('posts.show',compact('post'));
+        return view('posts.show', compact('post'));
     }
 
-    public function edit($postId){
+    public function edit($postId)
+    {
         $post = Post::findOrFail($postId);
-        return view('posts.edit',compact('post'));
+        return view('posts.edit', compact('post'));
     }
-     public function update(Request $request, $postId){
+    public function update(Request $request, $postId)
+    {
         // dd($request->all());
         post::findOrFail($postId)->update($request->all());
-        return redirect(route('post.all'))->with('status','Post Updated');
-     }
-     
-     public function delete($postId){
+        return redirect(route('post.all'))->with('status', 'Post Updated');
+    }
+
+    public function delete($postId)
+    {
         post::findOrFail($postId)->delete();
-        return back()->with('status','Post Deleted');
-     }
-
-
+        return back()->with('status', 'Post Deleted');
+    }
 }
